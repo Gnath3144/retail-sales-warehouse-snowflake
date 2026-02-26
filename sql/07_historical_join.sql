@@ -49,11 +49,11 @@ INSERT INTO SILVER.FACT_STAGE VALUES
 CREATE OR REPLACE TABLE SILVER.FACT_SALES AS
 SELECT
     d.customer_sk,
-    f.store_id,
-    f.sales_price,
+    f.ss_store_sk AS store_id,
+    f.ss_sales_price AS sales_price,
     f.transaction_date
-FROM SILVER.FACT_STAGE f
+FROM SILVER.STORE_SALES_ENRICHED f
 JOIN SILVER.CUSTOMER_DIM d
-    ON f.customer_id = d.customer_id
+    ON f.ss_customer_sk = d.customer_id
     AND f.transaction_date >= d.start_date
     AND (f.transaction_date < d.end_date OR d.end_date IS NULL);
